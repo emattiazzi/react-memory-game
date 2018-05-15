@@ -1,67 +1,47 @@
-import React, { Component } from "react";
-import Timer from "./components/Timer/Timer";
-import Button from "./components/Button/Button";
-import Card from "./components/Card/Card";
-import Wrapper from "./components/Wrapper/Wrapper";
-import shuffle from "./utils/shuffle";
-const symbols = ["🐶", "🐱", "🐨", "🐵", "🐸", "🐷"];
+import React, { Component } from 'react';
+import withTimeout from './components/HoC/withTimeout';
+import Button from './components/Button/Button';
+import Card from './components/Card/Card';
+import Wrapper from './components/Wrapper/Wrapper';
+import { newGame, clearSelectedCards, showCard, activateTimer } from './utils/update-state';
 
 const styles = {
-  textAlign: "center",
-  padding: "1.25rem"
+  textAlign: 'center',
+  padding: '1.25rem',
 };
-
 class Memory extends Component {
-  state = {
-    cards: shuffle(symbols.concat(symbols)),
-    correctAnswers: [],
-    selectedCards: [],
-    timerActive: false
-  };
-
+  state = newGame();
   newGame = () => {
-    this.setState({
-      cards: shuffle(symbols.concat(symbols)),
-      correctAnswers: [],
-      selectedCards: [],
-      timerActive: false
+    this.setState(newGame(), this.props.clearTimeout);
+  };
+  showCard = index => {
+    this.setState(showCard(this.state, index), () => {
+        this.updateResult(...this.state.selectedCards);
     });
   };
-
-  showCard = index => {
-    const { selectedCards } = this.state;
-    this.setState(
-      {
-        selectedCards: selectedCards.concat(index)
-      },
-      () => {
-        if (this.state.selectedCards.length === 2) {
-          this.updateResult(...this.state.selectedCards);
-        }
-      }
-    );
-  };
-
   updateResult = (firstCardIndex, secondCardIndex) => {
-    const { cards } = this.state;
+    const { cards, selectedCards } = this.state;
     const { correctAnswers } = this.state;
+
+    if (selectedCards.length !== 2) {
+      return false;
+    }
+
     if (cards[firstCardIndex] === cards[secondCardIndex]) {
       return this.setState({
         correctAnswers: correctAnswers.concat(firstCardIndex, secondCardIndex),
-        selectedCards: []
+        selectedCards: [],
       });
     }
-
-    this.setState({
-      timerActive: true
-    });
+    this.setState(
+      activateTimer(),
+      () => {
+        this.props.addTimeout(this.clearSelection, 2000);
+      },
+    );
   };
-
   clearSelection = () => {
-    this.setState({
-      timerActive: false,
-      selectedCards: []
-    });
+    this.setState(clearSelectedCards, this.props.clearTimeout());
   };
   render() {
     const { cards } = this.state;
@@ -69,7 +49,6 @@ class Memory extends Component {
     return (
       <div style={styles}>
         <Button onClick={this.newGame} label="New game" />
-        {timerActive && <Timer onFired={this.clearSelection} />}
         <Wrapper>
           {cards.map((card, index) => (
             <Card
@@ -90,5 +69,4 @@ class Memory extends Component {
     );
   }
 }
-
-export default Memory;
+export default withTimeout(Memory);
