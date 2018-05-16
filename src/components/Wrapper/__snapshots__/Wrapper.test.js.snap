@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Wrapper /> matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexWrap": "wrap",
+      "justifyContent": "center",
+      "margin": "0 auto",
+      "maxWidth": "860px",
+    }
+  }
+>
+  String
+</div>
+`;

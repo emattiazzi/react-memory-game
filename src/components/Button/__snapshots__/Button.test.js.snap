@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> matches the snapshot 1`] = `
+<button
+  onClick={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#388BCB",
+      "border": "2px solid #388BCB",
+      "borderRadius": "0.25rem",
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "display": "inline-block",
+      "fontSize": "0.875rem",
+      "lineHeight": "2rem",
+      "outline": "0",
+      "padding": "0.25rem 0.5rem",
+    }
+  }
+>
+  Snapshot
+</button>
+`;

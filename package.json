@@ -13,11 +13,13 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "prettier": "prettier --write '**/*.js'",
-    "eslint": "eslint --fix '**/*.js'"
+    "eslint": "eslint --fix '**/*.js'",
+    "coverage": "react-scripts test --env=jsdom --coverage"
   },
   "devDependencies": {
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.3",
     "eslint": "^4.19.1",
     "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-react": "^7.8.2",
